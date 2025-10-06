@@ -1,33 +1,29 @@
 pipeline {
     agent any
-    environment{
-        BRANCH_NAME = "${GIT_BRANCH.split('/').size() == 1 ? GIT_BRANCH.split('/')[-1] : GIT_BRANCH.split('/')[1..-1].join('/')}"
+    tools{
+        maven 'maven-3.9'
     }
     stages {
-        stage('Test') {
-            steps {
-                script {
-                    echo "Testing the application..."
-                    echo "Executing pipeline for branch ${BRANCH_NAME}" 
-                }
+        stage('Build jar') {
+            steps{
+                sh 'mvn package'
             }
         }
 
-        stage('Build') {
-            when {
-                expression { env.BRANCH_NAME == 'jenkins-job' } 
-            }
+        stage('Building image') {
             steps {
                 script {
-                    echo "Building the application..."
+                    echo "Building docker image..."
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable:'PASS',  usernameVariable:'USER')]){
+                        sh 'docker build -t doppy6/demo-app:jma-2.0 .'
+                        sh "echo $PASS | docker login -u USER --pasword-stdin"
+                        sh 'docker push doppy6/demo-app:jma-2.0'
+                    }
                 }
             }
         }
 
         stage('Deploy') {
-            when {
-                expression { env.BRANCH_NAME == 'jenkins-job' }
-            }
             steps {
                 script {
                     echo "Deploying the application..."
