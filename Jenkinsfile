@@ -6,14 +6,14 @@ pipeline {
             steps {
                 script {
                     echo "Testing the application..."
-                    echo "Executing pipeline for branch ${BRANCH_NAME}" 
+                    echo "Executing pipeline for branch ${env.BRANCH_NAME}" 
                 }
             }
         }
 
         stage('Build') {
             when {
-                expression { BRANCH_NAME == 'Doppy6-jenkins-job-fix' } 
+                expression { env.BRANCH_NAME == 'Doppy6-jenkins-job-fix' } 
             }
             steps {
                 script {
@@ -24,7 +24,7 @@ pipeline {
 
         stage('Deploy') {
             when {
-                expression { BRANCH_NAME == 'Doppy6-jenkins-job-fix' }
+                expression { env.BRANCH_NAME == 'Doppy6-jenkins-job-fix' }
             }
             steps {
                 script {
