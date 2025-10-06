@@ -16,7 +16,7 @@ pipeline {
                     echo "Building docker image..."
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable:'PASS',  usernameVariable:'USER')]){
                         sh 'docker build -t doppy6/demo-app:jma-2.0 .'
-                        sh "echo $PASS | docker login -u USER --pasword-stdin"
+                        sh "echo $PASS | docker login -u USER --password-stdin"
                         sh 'docker push doppy6/demo-app:jma-2.0'
                     }
                 }
