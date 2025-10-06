@@ -1,6 +1,12 @@
+def getGitBranchName() {
+    return scm.branches[0].name
+}
+
 pipeline {
     agent any
-
+    environment{
+        BRANCH_NAME = GIT_BRANCH
+    }
     stages {
         stage('Test') {
             steps {
