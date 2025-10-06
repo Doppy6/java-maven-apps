@@ -5,7 +5,7 @@ def getGitBranchName() {
 pipeline {
     agent any
     environment{
-        BRANCH_NAME = GIT_BRANCH
+        BRANCH_NAME = "${GIT_BRANCH}"
     }
     stages {
         stage('Test') {
