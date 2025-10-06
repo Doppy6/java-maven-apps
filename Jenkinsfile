@@ -13,7 +13,7 @@ pipeline {
 
         stage('Build') {
             when {
-                expression { BRANCH_NAME == 'jenkins-job' } 
+                expression { BRANCH_NAME == 'Doppy6-jenkins-job-fix' } 
             }
             steps {
                 script {
@@ -24,7 +24,7 @@ pipeline {
 
         stage('Deploy') {
             when {
-                expression { BRANCH_NAME == 'jenkins-job' }
+                expression { BRANCH_NAME == 'Doppy6-jenkins-job-fix' }
             }
             steps {
                 script {
