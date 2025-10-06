@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    environment{
+        BRANCH_NAME = "${GIT_BRANCH.split('/').size() == 1 ? GIT_BRANCH.split('/')[-1] : GIT_BRANCH.split('/')[1..-1].join('/')}"
+    }
     stages {
         stage('Test') {
             steps {
@@ -13,7 +15,7 @@ pipeline {
 
         stage('Build') {
             when {
-                expression { BRANCH_NAME == 'main' } 
+                expression { env.BRANCH_NAME == 'jenkins-job' } 
             }
             steps {
                 script {
@@ -24,7 +26,7 @@ pipeline {
 
         stage('Deploy') {
             when {
-                expression { BRANCH_NAME == 'main' }
+                expression { env.BRANCH_NAME == 'jenkins-job' }
             }
             steps {
                 script {
