@@ -1,7 +1,3 @@
-def getGitBranchName() {
-    return scm.branches[0].name
-}
-
 pipeline {
     agent any
     environment{
@@ -19,7 +15,7 @@ pipeline {
 
         stage('Build') {
             when {
-                expression { env.BRANCH_NAME == 'Doppy6-jenkins-job-fix' } 
+                expression { env.BRANCH_NAME == 'jenkins-job' } 
             }
             steps {
                 script {
@@ -30,7 +26,7 @@ pipeline {
 
         stage('Deploy') {
             when {
-                expression { env.BRANCH_NAME == 'Doppy6-jenkins-job-fix' }
+                expression { env.BRANCH_NAME == 'jenkins-job' }
             }
             steps {
                 script {
